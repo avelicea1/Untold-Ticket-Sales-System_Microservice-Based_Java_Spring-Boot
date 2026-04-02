@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .ticket-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #f38ba0;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .heading {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .ticket {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ticket-type {
+            font-size: 16px;
+            color: #888;
+            margin-right: 10px;
+        }
+
+        .total-price {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+            color: #f38ba0;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color:#f38ba0;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color:  #2B0251;
+        }
+    </style>
+</head>
+<body>
+<a th:href="@{/customer/seetickets/{userId} (userId=${userId})}" class="back-button">Continue Shopping</a>
+<form th:action="@{order/visualizeOrder/{orderId} (orderId = ${orderId})}" method="get">
+    <div class="ticket-container">
+        <div class="header">
+            <div class="heading" th:text="'Your Order, '+${user.firstName}"></div>
+        </div>
+        <ul th:each="ticket: ${tickets}">
+            <div class="ticket">
+                <div class="item-details" th:text="${ticket.id}"></div>
+               <div class="ticket-type" th:text="${ticket.category.tip}"></div>
+                <div class="ticket-type" th:text="(${ticket.discountedPrice} == null ? ${ticket.price} : ${ticket.discountedPrice}) + ' RON'"></div>
+            </div>
+        </ul>
+        <div class="total-price" th:text="${order.totalPrice} + 'Ron'"></div>
+
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,42 @@
+Order Details
+
+Order made by: Cosmin Pacurar
+
+Tickets: 
+
+Ticket 1:
+Type: two_days
+Start Date: 2024-08-22
+Finish Date: 2024-08-23
+Price: 240.0
+Ticket Number: 8d16036d-ae5e-4acb-a2df-52cbecd2e944
+
+Ticket 2:
+Type: two_days
+Start Date: 2024-08-22
+Finish Date: 2024-08-23
+Price: 240.0
+Ticket Number: 8d16036d-ae5e-4acb-a2df-52cbecd2e944
+
+Ticket 3:
+Type: two_days
+Start Date: 2024-08-22
+Finish Date: 2024-08-23
+Price: 240.0
+Ticket Number: 8d16036d-ae5e-4acb-a2df-52cbecd2e944
+
+Ticket 4:
+Type: two_days
+Start Date: 2024-08-22
+Finish Date: 2024-08-23
+Price: 240.0
+Ticket Number: 8d16036d-ae5e-4acb-a2df-52cbecd2e944
+
+Ticket 5:
+Type: two_days
+Start Date: 2024-08-22
+Finish Date: 2024-08-23
+Price: 240.0
+Ticket Number: 8d16036d-ae5e-4acb-a2df-52cbecd2e944
+
+Total amount for order 3197e8b6-ef5f-48e9-8d25-93d4ce249dd4: 1200.0

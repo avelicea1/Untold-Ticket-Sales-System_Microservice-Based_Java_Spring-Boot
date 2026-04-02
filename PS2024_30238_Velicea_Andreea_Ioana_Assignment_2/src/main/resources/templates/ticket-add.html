@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        form input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        form select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        form select:focus {
+            outline: none;
+            border-color: #66afe9;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #D5F5E3;
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #32CD32;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Add Ticket</h2>
+    <form id="ticketForm" th:action="@{/ticket/add/{userId}(userId = ${userId})}" method="post" th:object="${ticketDto}" onsubmit="validateForm()">
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+            <option th:each="category : ${categories}"
+                    th:value="${category.id}"
+                    th:text="${category.tip}"></option>
+        </select><br>
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" th:field="*{price}"/><br/>
+        <label for="imageUrl">Image:</label>
+        <select id="imageUrl" name="imageUrl" onchange="updateImagePreview()">
+            <option value="" disabled selected>Select an image</option>
+            <option th:each="imageName : ${imageNames}" th:value="${imageName}" th:text="${imageName}"></option>
+        </select><br>
+        <img id="imagePreview" src="" alt="Selected Image" style="max-width: 100%; margin-top: 10px;">
+        <label for="available">Available:</label>
+        <input type="text" id="available" name="available" th:field="*{available}"/><br/>
+        <input type="submit" value="Add"/>
+        <p id="errorMessage" th:if="${error}" style="color: red" th:text="${error}">An error occurred.</p>
+    </form>
+    <a th:href="@{/ticket/list/{userId}(userId = ${userId})}" class="back-button">Back to Ticket List</a>
+</div>
+<script>
+    function validateForm() {
+        const price = document.getElementById('price').value;
+        const available = document.getElementById('available').value;
+        if (isNaN(price) || price <= 0) {
+            alert('Please enter a valid price greater than 0');
+            return false;
+        }
+        if (isNaN(available) || available < 0 || !Number.isInteger(parseFloat(available))) {
+            alert('Please enter a valid non-negative integer value for available');
+            return false;
+        }
+        return true;
+    }
+    setTimeout(function() {
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+    }, 3000);
+    function updateImagePreview() {
+        const imageUrl = document.getElementById('imageUrl').value;
+        const imagePreview = document.getElementById('imagePreview');
+        imagePreview.src = "/images/" + imageUrl;
+    }
+</script>
+</body>
+</html>

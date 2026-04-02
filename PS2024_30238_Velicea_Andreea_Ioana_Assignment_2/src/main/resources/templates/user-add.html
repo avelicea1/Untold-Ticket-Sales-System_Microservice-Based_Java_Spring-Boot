@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add User</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"] {
+      width: calc(100% - 20px);
+      padding: 8px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    form input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    form input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      background-color: #D5F5E3;
+      color: #000;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #32CD32;
+    }
+    form select {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    form select:focus {
+      outline: none;
+      border-color: #66afe9;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Add User</h2>
+  <form id="userForm" th:action="@{/user/add/{userId}(userId = ${userId})}" method="post" th:object="${userDto}" onsubmit="validateForm()">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" th:field="*{firstName}"/><br/>
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" th:field="*{lastName}"/><br/>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" th:field="*{email}"/><br/>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" th:field="*{password}"/><br/>
+    <label for="role">Role:</label>
+    <select id="role" name="role">
+      <option th:each="role : ${T(com.example.untoldpsproject.entities.Role).values()}"
+              th:value="${role}" th:text="${role}"></option>
+    </select><br/>
+    <input type="submit" value="Add"/>
+    <p id="errorMessage" th:if="${error}" style="color: red" th:text="${error}">An error occurred.</p>
+  </form>
+  <a th:href="@{/user/list/{userId}(userId = ${userId})}" class="back-button">Back to User List</a>
+</div>
+<script>
+  function validateForm() {
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    if (password.length < 8 || password.length > 15) {
+      alert('Password must be between 8 and 15 characters');
+      return false;
+    }
+    if (!firstName) {
+      alert('First Name cannot be null');
+      return false;
+    } else if (!/[a-zA-Z]+-?[a-zA-Z]*$/.test(firstName)) {
+      alert('First Name must contain only letters');
+      return false;
+    }
+    if (!lastName) {
+      alert('Last Name cannot be null');
+      return false;
+    } else if (!/[a-zA-Z]+-?[a-zA-Z]*$/.test(lastName)) {
+      alert('Last Name must contain only letters');
+      return false;
+    }
+
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      alert('Please enter a valid Email address');
+      return false;
+    }
+    return true;
+  }
+  setTimeout(function() {
+    var errorMessage = document.getElementById('errorMessage');
+    if (errorMessage) {
+      errorMessage.style.display = 'none';
+    }
+  }, 3000);
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+Order Details
+
+Order made by: Andreea Velicea
+
+Tickets: 
+
+Ticket 1:
+Type: one_day
+Start Date: 2024-08-22
+Finish Date: 2024-08-22
+Price: 50.0
+Ticket Number: 1ea789ce-2d22-4198-a287-cf54a5f9e90a
+
+Total amount for order 7f6c6098-8126-462c-8345-7691eeb9abf7: 50.0

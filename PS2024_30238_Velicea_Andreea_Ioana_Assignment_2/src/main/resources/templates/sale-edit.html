@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Sale</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        form input[type="text"]{
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        form input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        form select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        form select:focus {
+            outline: none;
+            border-color: #66afe9;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+<h1>Edit Sale</h1>
+<form th:action="@{/sale/edit/{id}/{userId}(id=${saleDto.id}, userId = ${userId})}" th:object="${saleDto}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <label for="discountPercentage">Discount Percentage:</label>
+    <input type="number" id="discountPercentage" th:field="*{discountPercentage}" min="0" max="100" step="0.01" required />
+
+    <label for="tickets">Select Tickets:</label>
+    <select id="tickets" multiple="multiple" th:field="*{tickets}">
+        <option th:each="ticket : ${tickets}" th:value="${ticket.id}" th:text="${ticket.category.tip}"
+                th:selected="${saleDto.tickets.contains(ticket)}"></option>
+    </select>
+    <button type="submit">Update Sale</button>
+    <p id="errorMessage" th:if="${error}" style="color: red" th:text="${error}">An error occurred.</p>
+</form>
+</div>
+<script>
+    setTimeout(function() {
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+    }, 3000);
+</script>
+</body>
+</html>

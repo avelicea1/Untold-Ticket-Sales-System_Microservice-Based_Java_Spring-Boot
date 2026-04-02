@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sales List</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        }
+
+        .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+        color: #333;
+        }
+
+        table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        }
+
+        th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        }
+
+        th {
+        background-color: #f2f2f2;
+        }
+
+        tr:hover {
+        background-color: #f9f9f9;
+        }
+
+        .actions a {
+        color: #007bff;
+        text-decoration: none;
+        margin-right: 10px;
+        }
+
+        .actions a:hover {
+        text-decoration: underline;
+        }
+
+        .actions a.delete {
+        color: #dc3545;
+        }
+        .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        padding: 10px 20px;
+        background-color: #D5F5E3; /* Light green color */
+        color: #000;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+        background-color: #32CD32;
+        }
+        .add-sale-button {
+        display: block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #D5F5E3;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        width: fit-content;
+        }
+
+        .add-sale-button:hover {
+        background-color: #32CD32
+        }
+        .ticket-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .ticket-item {
+            margin-bottom: 15px;
+        }
+
+        .ticket-type {
+            font-weight: bold;
+        }
+
+        .price-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 5px;
+        }
+
+        .price-list li {
+            margin-bottom: 5px;
+        }
+        .discounted-price {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Sales List</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Discount Percentage</th>
+            <th>Tickets</th>
+            <th>Actions</th>
+        </tr>
+        <tbody>
+        <tr th:each="sale : ${sales}">
+            <td th:text="${sale.id}"></td>
+            <td th:text="${sale.discountPercentage}"></td>
+            <td>
+                <ul class="ticket-list">
+                    <li th:each="ticket : ${sale.tickets}" class="ticket-item">
+                        <span class="ticket-type">Ticket type: <span th:text="${ticket.category.tip}"></span></span>
+                        <ul class="price-list">
+                            <li>Initial price: <span th:text="${ticket.price}"></span></li>
+                            <li>New price: <span class="discounted-price" th:text="${ticket.discountedPrice}"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </td>
+            <td class="actions">
+                <a th:href="@{/sale/edit/{id}/{userId}(id=${sale.id}, userId = ${userId})}">Edit</a>
+                <a th:href="@{/sale/delete/{id}/{userId}(id=${sale.id},userId = ${userId})}" class="delete">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/sale/add/{userId}(userId = ${userId})}" class="add-sale-button">Add Sale</a>
+    <a th:href="@{/administrator/{userId}(userId = ${userId})}" class="back-button">Back to Admin Page</a>
+    <p id="errorMessage" th:if="${error}" style="color: red" th:text="${error}">An error occurred.</p>
+</div>
+<script>
+    setTimeout(function() {
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+    }, 3000);
+</script>
+</body>
+</html>
